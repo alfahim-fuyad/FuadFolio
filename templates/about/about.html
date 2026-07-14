@@ -46,9 +46,9 @@
   <div class="edu-grid">
     {% for edu in educations %}
       <article class="edu-card glass-card reveal">
-        <div class="edu-thumb {% if not edu.image %}placeholder{% endif %}">
+        <div class="edu-thumb {% if not edu.image %}placeholder{% endif %}{% if edu.level != 'school' %} logo-fit{% endif %}">
           {% if edu.image %}
-            <img src="{{ edu.image.url }}" alt="{{ edu.institution }}">
+            <img src="{{ edu.image.url }}" alt="{{ edu.institution }} logo">
           {% endif %}
           <span class="edu-badge">{{ edu.get_level_display }}</span>
         </div>
@@ -69,7 +69,7 @@
               </span>
             {% endif %}
           </div>
-          {% if edu.description %}<p class="edu-desc">{{ edu.description }}</p>{% endif %}
+          {% if edu.description %}<p class="edu-desc">{{ edu.description|urlize }}</p>{% endif %}
         </div>
       </article>
     {% empty %}

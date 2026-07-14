@@ -320,7 +320,7 @@ a:hover { color: var(--magenta); }
    HERO SECTION
    ================================================================ */
 .cv-hero {
-    padding: 60px 0 0;
+    padding-top: 60px;
 }
 
 /* Two-column grid: text left, card right */
@@ -653,7 +653,7 @@ a:hover { color: var(--magenta); }
    HERO — RESPONSIVE
    ================================================================ */
 @media (max-width: 900px) {
-    .cv-hero { padding: 44px 0 0; }
+    .cv-hero { padding-top: 44px; }
     .cv-hero-grid {
         grid-template-columns: 1fr;
         gap: 32px;
@@ -674,7 +674,7 @@ a:hover { color: var(--magenta); }
 
 @media (max-width: 600px) {
     .container-x { padding: 0 18px; }
-    .cv-hero { padding: 28px 0 0; }
+    .cv-hero { padding-top: 28px; }
     .cv-hero-grid { gap: 22px; }
 
     .cv-name {
@@ -1034,6 +1034,8 @@ a:hover { color: var(--magenta); }
 .edu-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
 .edu-thumb { position: relative; aspect-ratio: 16/9; background: linear-gradient(135deg, #dbeafe, #bfdbfe 50%, #93c5fd); overflow: hidden; border-bottom: 1px solid rgba(255,255,255,.6); }
 .edu-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.edu-thumb.logo-fit { background: #fff; }
+.edu-thumb.logo-fit img { object-fit: contain; padding: 22px; }
 .edu-card:hover .edu-thumb img { transform: scale(1.05); }
 .edu-thumb.placeholder::after { content: '🎓'; position: absolute; inset: 0; display: grid; place-items: center; font-size: 3rem; opacity: .5; }
 .edu-badge { position: absolute; top: 12px; left: 12px; padding: 4px 11px; border-radius: 999px; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.9); color: var(--cyan); font-size: .7rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; box-shadow: 0 3px 10px rgba(15,23,42,.08); }
