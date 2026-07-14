@@ -39,8 +39,8 @@ The app listens on port 5000 and is served through the Replit preview proxy.
 ## Site identity & GitHub-driven projects
 
 - `FuadFolio/settings.py` defines `SITE_GITHUB_USERNAME`, `SITE_EMAIL`, `SITE_LINKEDIN_URL`, `SITE_FACEBOOK_URL` — the single source of truth for contact/social info, overridable via env vars.
-- `home/context_processors.py` exposes these as `{{ site.* }}` in every template (nav, footer, hero, about, contact) instead of hardcoding the email/GitHub link in six places. It also exposes `site.cv_url` (the uploaded `Profile.resume`, if any) so the navbar "Download CV" button always points at the latest uploaded file.
-- The navbar "Hire Me" button was replaced with "Download CV" — it links to `site.cv_url` when a CV is uploaded in `/admin/` (`Profile.resume`), otherwise falls back to the `home:download_cv` view, which 404s with a clear message until a CV is uploaded.
+- `home/context_processors.py` exposes these as `{{ site.* }}` in every template (nav, footer, hero, about, contact) instead of hardcoding the email/GitHub link in six places.
+- The navbar "Hire Me" button was replaced with "Download CV" (`home:download_cv`). It does NOT serve a static uploaded file — `home/cv_generator.py` builds an ATS-friendly PDF (ReportLab) on every request from live data: GitHub repos (via `github_api.py`), `about.Education` rows, and `Profile` fields (full_name/title/location/summary/skills/experience/certifications, editable in `/admin/`). Editing any of those sources changes the very next download — no regeneration step, nothing cached to disk.
 - `home/github_api.py` calls the public GitHub REST API (no token needed since repos are public) and caches responses for 30 minutes.
   - `portfolio/views.py` now renders live public repos from `https://github.com/<SITE_GITHUB_USERNAME>` — pushing a new public repo makes it appear on `/portfolio/` automatically, no admin edit needed. Forked repos are excluded.
   - `home/views.py` uses the profile's uploaded photo (`home.Profile`, editable in `/admin/`) if set, otherwise falls back to the real GitHub avatar for the same reason `static/images/fuad.png` was an empty placeholder file.

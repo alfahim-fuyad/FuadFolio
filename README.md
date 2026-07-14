@@ -37,7 +37,10 @@ The app listens on port 5000 and is served through the Replit preview proxy.
 - **Responsive design system** — one CSS file with breakpoints tuned for desktop, laptop, tablet, and mobile; consistent spacing/alignment across all of them.
 - **GitHub-driven Projects page** — `home/github_api.py` pulls live public repos from `https://api.github.com/users/<SITE_GITHUB_USERNAME>/repos` (cached 30 minutes); push a new public repo and it appears automatically, no admin edit needed.
 - **Centralized site identity** — `FuadFolio/settings.py` defines `SITE_GITHUB_USERNAME`, `SITE_EMAIL`, `SITE_LINKEDIN_URL`, `SITE_FACEBOOK_URL`; exposed to every template via `home/context_processors.py` as `{{ site.* }}` instead of hardcoding contact info in multiple places.
-- **Download CV** — the navbar "Download CV" button serves the PDF uploaded to the `Profile.resume` field in `/admin/` (route: `home/cv/`, view: `home.views.download_cv`). Returns a 404 with a clear message until a CV file is uploaded.
+- **Download CV (auto-generated, ATS-friendly)** — the navbar "Download CV" button (route: `home/cv/`, view: `home.views.download_cv`) builds a clean, modern PDF resume on every request using `home/cv_generator.py` (ReportLab). It pulls:
+  - **Projects** live from the GitHub REST API (top repos by stars/recency) — a new public repo shows up automatically.
+  - **Education** live from the `about.Education` admin model.
+  - **Name, title, summary, skills, experience, certifications** from the `Profile` row in `/admin/` — edit any of these and the very next download reflects it. Nothing is cached to disk, so there's no separate "regenerate" step.
 - **Profile photo fallback** — uses the uploaded `Profile.photo` if set in `/admin/`, otherwise falls back to the real GitHub avatar.
 - **Education Journey** — About page lists School (Anjuman Adarsha Govt. High School, Netrakona), College (Agricultural University College), and University (East West University) with real logos/photos, editable via `/admin/` (`about.Education`).
 
@@ -51,8 +54,8 @@ The app listens on port 5000 and is served through the Replit preview proxy.
 ## Admin
 
 Manage content at `/admin/`:
-- **Profile** — upload the profile photo and the CV/resume PDF (powers the "Download CV" button).
-- **Education** — School/College/University entries shown on the About page.
+- **Profile** — profile photo plus CV content fields (title, location, summary, skills, experience, certifications) that feed the auto-generated "Download CV" PDF.
+- **Education** — School/College/University entries shown on the About page and included in the generated CV.
 
 ## Deployment
 

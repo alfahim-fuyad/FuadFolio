@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import Http404, FileResponse
+from django.http import HttpResponse
 from .models import Profile
 from .github_api import get_github_user
+from .cv_generator import build_cv_pdf
 
 def home(request):
     profile = Profile.objects.first()
@@ -21,9 +22,14 @@ def home(request):
 
 
 def download_cv(request):
-    """Serve the CV/resume uploaded to the Profile in /admin/, as a download."""
+    """Generate a fresh, ATS-friendly CV PDF from live GitHub + portfolio data.
+
+    Built on every request (not stored on disk), so it always reflects the
+    latest GitHub repos, education entries, and admin-edited CV content with
+    no manual regeneration step.
+    """
     profile = Profile.objects.first()
-    if not profile or not profile.resume:
-        raise Http404("No CV has been uploaded yet.")
-    return FileResponse(profile.resume.open('rb'), as_attachment=True,
-                         filename='Md-Al-Fahim-Fuyad-CV.pdf')
+    buf, filename = build_cv_pdf(profile)
+    response = HttpResponse(buf.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response

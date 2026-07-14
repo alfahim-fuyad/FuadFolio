@@ -34,7 +34,7 @@
         <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
         <li><a href="{% url 'portfolio' %}" class="{% if request.resolver_match.url_name == 'portfolio' %}active{% endif %}">Projects</a></li>
         <!-- <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li> -->
-        <li><a href="{% if site.cv_url %}{{ site.cv_url }}{% else %}{% url 'download_cv' %}{% endif %}" class="hire-me-btn" download>Download CV</a></li>
+        <li><a href="{% url 'download_cv' %}" class="hire-me-btn">Download CV</a></li>
       </ul>
     </div>
   </header>
