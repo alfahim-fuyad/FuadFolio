@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#eaf2ff">
-  <meta name="description" content="{% block meta_description %}Al Fahim Fuad — Data Science & Machine Learning portfolio. Building intelligent, data-driven, and futuristic experiences.{% endblock %}">
-  <title>{% block title %}FuadFolio — Al Fahim Fuad{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Md. Al Fahim Fuyad — Data Science & Machine Learning portfolio. Building intelligent, data-driven, and futuristic experiences.{% endblock %}">
+  <title>{% block title %}fuadFolio — Md. Al Fahim Fuyad{% endblock %}</title>
   <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
   <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/logo.png' %}">
 
@@ -23,8 +23,8 @@
   <header class="site-nav">
     <div class="nav-inner">
       <a class="brand" href="{% url 'home' %}">
-        <img src="{% static 'images/logo.png' %}" alt="FuadFolio" class="logo" onerror="this.style.display='none'">
-        <span>FuadFolio</span>
+        <img src="{% static 'images/logo.png' %}" alt="fuadFolio" class="logo" onerror="this.style.display='none'">
+        <span>fuadFolio</span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
         <span></span>
@@ -34,7 +34,7 @@
         <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
         <li><a href="{% url 'portfolio' %}" class="{% if request.resolver_match.url_name == 'portfolio' %}active{% endif %}">Projects</a></li>
         <!-- <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li> -->
-        <li><a href="{% url 'contact' %}" class="hire-me-btn">Hire Me &rarr;</a></li>
+        <li><a href="{% if site.cv_url %}{{ site.cv_url }}{% else %}{% url 'download_cv' %}{% endif %}" class="hire-me-btn" download>Download CV</a></li>
       </ul>
     </div>
   </header>
@@ -44,7 +44,7 @@
   </main>
 
   <footer class="site-foot">
-    <a class="foot-brand" href="{% url 'home' %}">FuadFolio</a>
+    <a class="foot-brand" href="{% url 'home' %}">fuadFolio</a>
     <p class="foot-tagline">Building intelligent systems with data & code.</p>
     <div class="socials">
       <a href="mailto:{{ site.email }}" aria-label="Email">
@@ -60,7 +60,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
       </a>
     </div>
-    <p class="foot-copy">© {% now "Y" %} Al Fahim Fuad &mdash; Crafted with code &amp; curiosity. &nbsp;|&nbsp; <a href="/admin/" style="opacity:.5;font-size:.78rem">Admin</a></p>
+    <p class="foot-copy">© {% now "Y" %} Md. Al Fahim Fuyad &mdash; Crafted with code &amp; curiosity. &nbsp;|&nbsp; <a href="/admin/" style="opacity:.5;font-size:.78rem">Admin</a></p>
   </footer>
 
   <script>

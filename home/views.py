@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import Http404, FileResponse
 from .models import Profile
 from .github_api import get_github_user
 
@@ -17,3 +18,12 @@ def home(request):
             avatar_url = github_user.get('avatar_url')
 
     return render(request, 'home/home.html', {'profile': profile, 'avatar_url': avatar_url})
+
+
+def download_cv(request):
+    """Serve the CV/resume uploaded to the Profile in /admin/, as a download."""
+    profile = Profile.objects.first()
+    if not profile or not profile.resume:
+        raise Http404("No CV has been uploaded yet.")
+    return FileResponse(profile.resume.open('rb'), as_attachment=True,
+                         filename='Md-Al-Fahim-Fuyad-CV.pdf')

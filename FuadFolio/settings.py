@@ -70,7 +70,7 @@ INSTALLED_APPS = [
 SITE_GITHUB_USERNAME = os.environ.get('SITE_GITHUB_USERNAME', 'alfahim-fuyad')
 SITE_EMAIL = os.environ.get('SITE_EMAIL', 'md.alfahim.fuyad@gmail.com')
 SITE_LINKEDIN_URL = os.environ.get('SITE_LINKEDIN_URL', 'https://www.linkedin.com/in/al-fahim-36126636b')
-SITE_FACEBOOK_URL = os.environ.get('SITE_FACEBOOK_URL', 'https://www.facebook.com/Fuad00000000000')
+SITE_FACEBOOK_URL = os.environ.get('SITE_FACEBOOK_URL', 'https://www.facebook.com/alfahim07')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
