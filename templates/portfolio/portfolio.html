@@ -7,20 +7,23 @@
 <section class="section container-x">
   <h2 class="section-title reveal">Selected Projects</h2>
   <p class="section-sub reveal">
-    A growing collection of things I've built across data, ML, and the web.
+    Pulled live from
+    <a href="{{ site.github_url }}" target="_blank" rel="noopener">GitHub</a>
+    — push a new public repo and it shows up here automatically.
   </p>
 
   <div class="project-grid">
-    {% for p in projects %}
+    {% for repo in repos %}
       <article class="project-card reveal" data-modal="projectModal{{ forloop.counter }}">
-        <div class="project-thumb {% if not p.image %}placeholder{% endif %}">
-          {% if p.image %}
-            <img src="{{ p.image.url }}" alt="{{ p.title }}">
-          {% endif %}
-        </div>
+        <div class="project-thumb placeholder"></div>
         <div class="project-body">
-          <h3>{{ p.title }}</h3>
-          {% if p.description %}<p>{{ p.description }}</p>{% endif %}
+          <h3>{{ repo.name }}</h3>
+          {% if repo.description %}<p>{{ repo.description }}</p>{% endif %}
+          <div class="repo-meta">
+            {% if repo.language %}<span class="repo-chip">{{ repo.language }}</span>{% endif %}
+            <span class="repo-chip" title="Stars">★ {{ repo.stars }}</span>
+            <span class="repo-chip" title="Forks">⑂ {{ repo.forks }}</span>
+          </div>
           <div class="project-foot">
             <span>View details</span>
             <span>→</span>
@@ -31,23 +34,43 @@
       <div class="modal-backdrop-x" id="projectModal{{ forloop.counter }}" role="dialog" aria-modal="true" aria-labelledby="projectModalLabel{{ forloop.counter }}">
         <div class="modal-x">
           <header>
-            <h3 id="projectModalLabel{{ forloop.counter }}">{{ p.title }}</h3>
+            <h3 id="projectModalLabel{{ forloop.counter }}">{{ repo.name }}</h3>
             <button type="button" class="close-x" data-close aria-label="Close">×</button>
           </header>
           <div class="body">
-            {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}">{% endif %}
-            {% if p.description %}<p>{{ p.description }}</p>{% endif %}
-            {% if p.project_url %}
-              <a href="{{ p.project_url }}" target="_blank" rel="noopener" class="btn btn-primary">Open Project ↗</a>
+            {% if repo.description %}<p>{{ repo.description }}</p>{% endif %}
+            {% if repo.topics %}
+              <div class="repo-topics">
+                {% for topic in repo.topics %}<span class="chip">{{ topic }}</span>{% endfor %}
+              </div>
             {% endif %}
+            <div class="repo-meta mb-2">
+              {% if repo.language %}<span class="repo-chip">{{ repo.language }}</span>{% endif %}
+              <span class="repo-chip" title="Stars">★ {{ repo.stars }} stars</span>
+              <span class="repo-chip" title="Forks">⑂ {{ repo.forks }} forks</span>
+              {% if repo.updated_at %}<span class="repo-chip" title="Last updated">Updated {{ repo.updated_at|date:"M j, Y" }}</span>{% endif %}
+            </div>
+            <div class="cv-cta">
+              <a href="{{ repo.url }}" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub ↗</a>
+              {% if repo.homepage %}
+                <a href="{{ repo.homepage }}" target="_blank" rel="noopener" class="btn btn-ghost">Live Demo ↗</a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
     {% empty %}
       <div class="empty-state reveal">
-        <h3 style="font-family:'Orbitron',sans-serif; color:var(--cyan); margin-top:0;">No projects yet</h3>
-        <p>Projects will appear here as soon as they're added from the admin panel.</p>
-        <a href="/admin/" class="btn btn-ghost mt-2">Open Admin →</a>
+        {% if github_error %}
+          <h3 style="font-family:'Orbitron',sans-serif; color:var(--cyan); margin-top:0;">Couldn't reach GitHub</h3>
+          <p>GitHub's API didn't respond just now. Refresh the page in a bit — projects are pulled live from
+            <a href="{{ site.github_url }}" target="_blank" rel="noopener">{{ site.github_url }}</a>.</p>
+        {% else %}
+          <h3 style="font-family:'Orbitron',sans-serif; color:var(--cyan); margin-top:0;">No public repositories yet</h3>
+          <p>Once public repos are pushed to
+            <a href="{{ site.github_url }}" target="_blank" rel="noopener">{{ site.github_url }}</a>,
+            they'll appear here automatically.</p>
+        {% endif %}
       </div>
     {% endfor %}
   </div>

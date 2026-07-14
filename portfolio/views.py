@@ -1,6 +1,10 @@
 from django.shortcuts import render
-from .models import Project
+from home.github_api import get_github_repos
 
 def portfolio(request):
-    projects = Project.objects.all()
-    return render(request, 'portfolio/portfolio.html', {'projects': projects})
+    repos = get_github_repos()
+    github_error = repos is None
+    return render(request, 'portfolio/portfolio.html', {
+        'repos': repos or [],
+        'github_error': github_error,
+    })

@@ -36,6 +36,15 @@ The app listens on port 5000 and is served through the Replit preview proxy.
 - `DEBUG` defaults to `True` in development; set the `DEBUG` env var to `False` for production behavior.
 - WhiteNoise is enabled for serving static files.
 
+## Site identity & GitHub-driven projects
+
+- `FuadFolio/settings.py` defines `SITE_GITHUB_USERNAME`, `SITE_EMAIL`, `SITE_LINKEDIN_URL`, `SITE_FACEBOOK_URL` — the single source of truth for contact/social info, overridable via env vars.
+- `home/context_processors.py` exposes these as `{{ site.* }}` in every template (nav, footer, hero, about, contact) instead of hardcoding the email/GitHub link in six places.
+- `home/github_api.py` calls the public GitHub REST API (no token needed since repos are public) and caches responses for 30 minutes.
+  - `portfolio/views.py` now renders live public repos from `https://github.com/<SITE_GITHUB_USERNAME>` — pushing a new public repo makes it appear on `/portfolio/` automatically, no admin edit needed. Forked repos are excluded.
+  - `home/views.py` uses the profile's uploaded photo (`home.Profile`, editable in `/admin/`) if set, otherwise falls back to the real GitHub avatar for the same reason `static/images/fuad.png` was an empty placeholder file.
+- The old `portfolio.Project` model/admin still exists but is no longer used by the projects page (kept for reference, not wired into any view).
+
 ## Deployment
 
 Configured for Replit Autoscale:

@@ -1,0 +1,128 @@
+হ্যাঁ, **যদি আপনার GitHub-এর সব project public থাকে**, তাহলে **শুধু GitHub username বা profile link দিলেই হবে।** Token লাগবে না।
+
+ধরুন আপনার GitHub link:
+
+```text
+https://github.com/alfahimfuad
+```
+
+এখান থেকে username বের করবেন:
+
+```text
+alfahimfuad
+```
+
+তারপর API call:
+
+```text
+https://api.github.com/users/alfahimfuad/repos
+```
+
+এতেই সব public repository চলে আসবে।
+
+---
+
+## Django Flow
+
+```text
+Portfolio
+      ↓
+GitHub Profile Link
+      ↓
+Username Extract
+      ↓
+GitHub API
+      ↓
+Repositories
+      ↓
+Project Cards
+```
+
+---
+
+## Database-এ save না করেও করা যায়
+
+View:
+
+```python
+import requests
+
+def projects(request):
+    username = "alfahimfuad"
+
+    url = f"https://api.github.com/users/{username}/repos"
+
+    repos = requests.get(url).json()
+
+    return render(request, "projects.html", {"repos": repos})
+```
+
+Template:
+
+```django
+{% for repo in repos %}
+<div class="card">
+    <h3>{{ repo.name }}</h3>
+    <p>{{ repo.description }}</p>
+
+    <a href="{{ repo.html_url }}">
+        GitHub
+    </a>
+
+    <p>{{ repo.language }}</p>
+
+    ⭐ {{ repo.stargazers_count }}
+</div>
+{% endfor %}
+```
+
+এতে আপনি GitHub-এ নতুন repository বানালেই, portfolio refresh করলে সেটাও দেখাবে।
+
+---
+
+## আরও Professional করতে চাইলে
+
+শুধু link না রেখে database-এ **GitHub profile URL** রাখুন।
+
+```python
+class Profile(models.Model):
+    github = models.URLField()
+```
+
+যেমন:
+
+```text
+https://github.com/alfahimfuad
+```
+
+তারপর code নিজেই username বের করবে:
+
+```python
+username = profile.github.rstrip("/").split("/")[-1]
+```
+
+এরপর API call করবে:
+
+```python
+url = f"https://api.github.com/users/{username}/repos"
+```
+
+অর্থাৎ ভবিষ্যতে GitHub link পরিবর্তন করলেও শুধু database-এ link বদলালেই হবে।
+
+---
+
+### আমি হলে আরও একটি feature যোগ করতাম:
+
+প্রতি project card-এ দেখাতাম:
+
+* 📦 Repository Name
+* 📝 Description
+* 🏷️ Topics
+* 💻 Language
+* ⭐ Stars
+* 🍴 Forks
+* 📅 Last Updated
+* 🌐 Live Demo (যদি homepage থাকে)
+* 📖 README-এর প্রথম অংশ
+
+এতে আপনার Django portfolio সম্পূর্ণ **GitHub-driven** হয়ে যাবে—GitHub-এ project update করলেই portfolio-তেও স্বয়ংক্রিয়ভাবে update দেখা যাবে।

@@ -63,6 +63,15 @@ INSTALLED_APPS = [
     'contact',
 ]
 
+# Public profile info shown across the site (nav, footer, hero, contact).
+# GITHUB_USERNAME drives the GitHub-powered "Projects" page: repos are pulled
+# live from https://api.github.com/users/<username>/repos, so anything new
+# pushed to GitHub shows up automatically without editing the site.
+SITE_GITHUB_USERNAME = os.environ.get('SITE_GITHUB_USERNAME', 'alfahim-fuyad')
+SITE_EMAIL = os.environ.get('SITE_EMAIL', 'md.alfahim.fuyad@gmail.com')
+SITE_LINKEDIN_URL = os.environ.get('SITE_LINKEDIN_URL', 'https://www.linkedin.com/in/al-fahim-36126636b')
+SITE_FACEBOOK_URL = os.environ.get('SITE_FACEBOOK_URL', 'https://www.facebook.com/Fuad00000000000')
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -87,6 +96,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.site_info',
             ],
         },
     },

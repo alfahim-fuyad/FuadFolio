@@ -26,6 +26,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
+img { max-width: 100%; }
 
 body {
     font-family: var(--font-body);
@@ -938,9 +939,12 @@ a:hover { color: var(--magenta); }
     padding: 18px 20px 20px;
     display: flex; flex-direction: column; gap: 8px; flex: 1;
 }
-.project-body h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -.2px; }
+.project-body h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -.2px; overflow-wrap: anywhere; }
 .project-body p { color: var(--text-dim); font-size: .9rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .project-foot { margin-top: 8px; display: flex; align-items: center; justify-content: space-between; font-size: .84rem; color: var(--cyan); font-weight: 600; }
+.repo-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.repo-chip { padding: 4px 10px; border-radius: 999px; background: rgba(37,99,235,.08); border: 1px solid var(--border-strong); font-size: .74rem; color: var(--cyan); font-weight: 600; white-space: nowrap; }
+.repo-topics { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
 .empty-state {
     grid-column: 1 / -1; text-align: center; padding: 56px 20px;
     color: var(--text-dim); border: 1.5px dashed var(--border-strong); border-radius: var(--radius);
