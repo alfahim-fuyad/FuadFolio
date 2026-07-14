@@ -1,0 +1,1 @@
+- [Django pinned-version firewall block](django-pinned-version-firewall-block.md) — old pinned Django (e.g. 4.2) wheels can be blocked by the package firewall; installing unpinned resolves to latest and works.
