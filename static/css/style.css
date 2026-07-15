@@ -461,70 +461,70 @@ a:hover { color: var(--magenta); }
 .profile-card {
     position: relative;
     width: 100%;
-    max-width: 280px;
-    background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(255,255,255,.55));
-    border: 1px solid rgba(255,255,255,.85);
-    border-radius: 28px;
-    padding: 28px 22px 24px;
+    max-width: 300px;
+    background: linear-gradient(165deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 26px;
+    padding: 40px 24px 28px;
     backdrop-filter: blur(24px) saturate(170%);
     -webkit-backdrop-filter: blur(24px) saturate(170%);
-    box-shadow: 0 24px 64px rgba(37,99,235,.14), 0 8px 20px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.9);
-    animation: floatCard 6s ease-in-out infinite;
+    box-shadow: 0 30px 70px -12px rgba(15,23,42,.16), 0 4px 14px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.95);
+    animation: floatCard 7s ease-in-out infinite;
     text-align: center;
+    overflow: hidden;
 }
 
-/* Gradient border overlay */
+/* Hairline border for a crisp, premium edge */
 .profile-card::before {
     content: '';
-    position: absolute; inset: -1px;
-    border-radius: 29px;
-    background: var(--accent-grad);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events: none; opacity: .55;
+    position: absolute; inset: 0;
+    border-radius: 26px;
+    box-shadow: inset 0 0 0 1px rgba(37,99,235,.12);
+    pointer-events: none;
 }
 
-/* Soft background glow */
+/* Brush-stroke artwork behind the avatar — sits within the top band only,
+   fades out before it reaches the name/role text so nothing is obscured. */
 .profile-glow-bg {
     position: absolute;
-    inset: -30px;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(37,99,235,.22), transparent 70%);
-    z-index: -1;
-    filter: blur(20px);
+    top: -8%;
+    left: 50%;
+    width: 118%;
+    max-width: 340px;
+    aspect-ratio: 1 / 1;
+    transform: translateX(-50%) rotate(-8deg);
+    background: url('../images/brush-stroke-bg.png') center / contain no-repeat;
+    z-index: 0;
+    opacity: .32;
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 88%);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent 88%);
     pointer-events: none;
 }
 
 @keyframes floatCard {
     0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-10px); }
+    50%       { transform: translateY(-8px); }
 }
 
-/* Circular avatar with animated ring */
+/* Circular avatar with a clean, professional ring */
 .avatar-wrap {
-    width: 160px;
-    height: 160px;
+    width: 156px;
+    height: 156px;
     border-radius: 50%;
-    margin: 0 auto 20px;
+    margin: 0 auto 22px;
     position: relative;
+    z-index: 2;
 }
 
-/* Spinning gradient ring */
+/* Static gradient ring — no spin, just a refined edge */
 .avatar-wrap::before {
     content: '';
     position: absolute;
-    inset: -4px;
+    inset: -5px;
     border-radius: 50%;
-    background: conic-gradient(
-        #2563eb 0deg,
-        #60a5fa 90deg,
-        #3b82f6 180deg,
-        #1e40af 270deg,
-        #2563eb 360deg
-    );
-    animation: spinRing 4s linear infinite;
+    background: var(--accent-grad);
     z-index: 0;
+    box-shadow: 0 10px 26px -6px rgba(37,99,235,.4);
 }
 
 /* White gap between ring and image */
@@ -533,13 +533,9 @@ a:hover { color: var(--magenta); }
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: #eef5ff;
+    background: #fff;
     z-index: 1;
-    margin: 3px;
-}
-
-@keyframes spinRing {
-    to { transform: rotate(360deg); }
+    margin: 4px;
 }
 
 /* Avatar image */
@@ -554,6 +550,7 @@ a:hover { color: var(--magenta); }
     z-index: 2;
     display: block;
     background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
+    box-shadow: 0 2px 8px rgba(15,23,42,.08);
 }
 
 /* Profile text */
@@ -564,32 +561,33 @@ a:hover { color: var(--magenta); }
 .profile-name {
     font-family: var(--font-head);
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.05rem;
     letter-spacing: 1.5px;
     color: var(--text);
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 .profile-role {
-    font-size: .8rem;
+    font-size: .82rem;
     color: var(--text-dim);
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     line-height: 1.4;
 }
 .profile-badges {
     display: flex;
-    gap: 5px;
+    gap: 6px;
     justify-content: center;
     flex-wrap: wrap;
 }
 .profile-badges span {
-    background: rgba(37,99,235,.08);
+    background: rgba(255,255,255,.7);
     border: 1px solid var(--border-strong);
     color: var(--cyan);
     font-size: .68rem;
     font-weight: 700;
-    padding: 3px 9px;
+    padding: 4px 10px;
     border-radius: 999px;
     letter-spacing: .3px;
+    box-shadow: 0 1px 3px rgba(15,23,42,.04);
 }
 
 /* ================================================================
@@ -684,7 +682,7 @@ a:hover { color: var(--magenta); }
     .cv-title { font-size: .88rem; }
     .cv-summary { font-size: .9rem; line-height: 1.65; }
 
-    .profile-card { max-width: 220px; padding: 22px 16px 20px; }
+    .profile-card { max-width: 220px; padding: 30px 16px 20px; }
     .avatar-wrap { width: 130px; height: 130px; }
 
     .hero-socials { gap: 8px; }
