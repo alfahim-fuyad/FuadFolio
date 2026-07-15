@@ -52,3 +52,24 @@ Configured for Replit Autoscale:
 
 - Build: `python manage.py collectstatic --noinput && python manage.py migrate --noinput`
 - Run: `gunicorn --bind=0.0.0.0:5000 --reuse-port FuadFolio.wsgi:application`
+
+### Deploying to Render / Koyeb with Neon Postgres
+
+`render.yaml` and `koyeb.yaml` are both in the repo. Same required env vars on
+either platform (set them in the platform's dashboard, not committed to git):
+
+| Key | Value |
+|---|---|
+| `SECRET_KEY` | a long random string (Render generates one automatically; Koyeb needs one set manually) |
+| `DEBUG` | `False` |
+| `DATABASE_URL` | your Neon connection string, e.g. `postgresql://user:pass@host/db?sslmode=require` |
+| `SITE_GITHUB_USERNAME` | `alfahim-fuyad` |
+| `SITE_EMAIL` | `md.alfahim.fuyad@gmail.com` |
+| `SITE_LINKEDIN_URL` | `https://www.linkedin.com/in/al-fahim-36126636b` |
+| `SITE_FACEBOOK_URL` | `https://www.facebook.com/alfahim07` |
+| `CSRF_EXTRA_ORIGINS` | only needed if you attach a custom domain, e.g. `https://yourdomain.com` |
+
+`FuadFolio/settings.py` already trusts `*.onrender.com`, `*.koyeb.app`,
+`*.up.railway.app`/`*.railway.app` for CSRF. After the first deploy, run
+`python manage.py createsuperuser` as a one-off shell command on that platform
+to get into `/admin/` and fill in `Profile` and `Education`.

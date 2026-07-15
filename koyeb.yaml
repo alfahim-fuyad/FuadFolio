@@ -1,0 +1,42 @@
+# Koyeb deployment config for fuadFolio.
+# Push this repo to GitHub, then in Koyeb: Create App -> GitHub -> pick the repo.
+# Koyeb will detect this file, or you can paste these settings manually in the
+# service creation form. Set the env vars below in the Koyeb dashboard
+# (Environment variables section) — do not commit real secrets here.
+name: fuadfolio
+services:
+  - name: web
+    git:
+      branch: main
+      build_command: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && (python manage.py createsuperuser --noinput || true)"
+      run_command: "gunicorn FuadFolio.wsgi:application --bind 0.0.0.0:$PORT"
+    env:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: SECRET_KEY
+        value: "" # set a long random string in the Koyeb dashboard
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        value: "" # paste your Neon connection string (postgresql://...sslmode=require)
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: "" # set in the Koyeb dashboard — used to auto-create the /admin/ login on deploy
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: "" # set in the Koyeb dashboard
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: "" # set in the Koyeb dashboard
+      - key: SITE_GITHUB_USERNAME
+        value: "alfahim-fuyad"
+      - key: SITE_EMAIL
+        value: "md.alfahim.fuyad@gmail.com"
+      - key: SITE_LINKEDIN_URL
+        value: "https://www.linkedin.com/in/al-fahim-36126636b"
+      - key: SITE_FACEBOOK_URL
+        value: "https://www.facebook.com/alfahim07"
+    ports:
+      - port: 8000
+        protocol: http
+    routes:
+      - path: /
+        port: 8000
+    instance_type: free

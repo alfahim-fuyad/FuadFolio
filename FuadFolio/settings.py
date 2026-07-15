@@ -56,6 +56,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'https://*.up.railway.app',
     'https://*.railway.app',
+    'https://*.koyeb.app',
 ]
 _extra_origins = os.environ.get('CSRF_EXTRA_ORIGINS', '')
 if _extra_origins:

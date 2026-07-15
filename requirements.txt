@@ -12,3 +12,17 @@ whitenoise==6.12.0
 requests
 reportlab
 qrcode
+asgiref==3.12.1
+dj-database-url==3.1.2
+Django==6.0.7
+gunicorn==26.0.0
+mysqlclient==2.2.8
+packaging==26.2
+pillow==12.3.0
+psycopg2-binary==2.9.12
+python-dotenv==1.2.2
+qrcode
+reportlab
+requests
+sqlparse==0.5.5
+whitenoise==6.12.0
