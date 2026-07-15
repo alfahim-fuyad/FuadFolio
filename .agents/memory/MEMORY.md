@@ -1,1 +1,2 @@
 - [Django pinned-version firewall block](django-pinned-version-firewall-block.md) — old pinned Django (e.g. 4.2) wheels can be blocked by the package firewall; installing unpinned resolves to latest and works.
+- [Neon/Render/Railway Postgres SSL gotcha](neon-render-railway-ssl.md) — derive DATABASE_URL ssl_require from env (e.g. `not DEBUG`), don't hardcode True or it breaks Replit's own no-SSL dev Postgres.

@@ -1,5 +1,5 @@
 /* =========================================================
-   FuadFolio — Premium AI Portfolio Design System
+   fuadFolio — Premium AI Portfolio Design System
    ========================================================= */
 
 :root {
@@ -26,6 +26,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
+img { max-width: 100%; }
 
 body {
     font-family: var(--font-body);
@@ -120,7 +121,6 @@ a:hover { color: var(--magenta); }
     font-weight: 800;
     font-size: 1.15rem;
     letter-spacing: .5px;
-    text-transform: uppercase;
     background: var(--accent-grad);
     -webkit-background-clip: text;
     background-clip: text;
@@ -153,7 +153,7 @@ a:hover { color: var(--magenta); }
     box-shadow: inset 0 0 0 1px var(--border-strong);
 }
 
-/* Hire Me CTA */
+/* Download CV CTA */
 .hire-me-btn {
     background: var(--accent-grad) !important;
     color: #fff !important;
@@ -319,7 +319,7 @@ a:hover { color: var(--magenta); }
    HERO SECTION
    ================================================================ */
 .cv-hero {
-    padding: 60px 0 0;
+    padding-top: 60px;
 }
 
 /* Two-column grid: text left, card right */
@@ -652,7 +652,7 @@ a:hover { color: var(--magenta); }
    HERO — RESPONSIVE
    ================================================================ */
 @media (max-width: 900px) {
-    .cv-hero { padding: 44px 0 0; }
+    .cv-hero { padding-top: 44px; }
     .cv-hero-grid {
         grid-template-columns: 1fr;
         gap: 32px;
@@ -673,7 +673,7 @@ a:hover { color: var(--magenta); }
 
 @media (max-width: 600px) {
     .container-x { padding: 0 18px; }
-    .cv-hero { padding: 28px 0 0; }
+    .cv-hero { padding-top: 28px; }
     .cv-hero-grid { gap: 22px; }
 
     .cv-name {
@@ -938,9 +938,12 @@ a:hover { color: var(--magenta); }
     padding: 18px 20px 20px;
     display: flex; flex-direction: column; gap: 8px; flex: 1;
 }
-.project-body h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -.2px; }
+.project-body h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -.2px; overflow-wrap: anywhere; }
 .project-body p { color: var(--text-dim); font-size: .9rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .project-foot { margin-top: 8px; display: flex; align-items: center; justify-content: space-between; font-size: .84rem; color: var(--cyan); font-weight: 600; }
+.repo-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.repo-chip { padding: 4px 10px; border-radius: 999px; background: rgba(37,99,235,.08); border: 1px solid var(--border-strong); font-size: .74rem; color: var(--cyan); font-weight: 600; white-space: nowrap; }
+.repo-topics { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
 .empty-state {
     grid-column: 1 / -1; text-align: center; padding: 56px 20px;
     color: var(--text-dim); border: 1.5px dashed var(--border-strong); border-radius: var(--radius);
@@ -1013,7 +1016,6 @@ a:hover { color: var(--magenta); }
     background-clip: text;
     color: transparent;
     letter-spacing: .5px;
-    text-transform: uppercase;
     display: block;
     margin-bottom: 6px;
 }
@@ -1030,6 +1032,8 @@ a:hover { color: var(--magenta); }
 .edu-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
 .edu-thumb { position: relative; aspect-ratio: 16/9; background: linear-gradient(135deg, #dbeafe, #bfdbfe 50%, #93c5fd); overflow: hidden; border-bottom: 1px solid rgba(255,255,255,.6); }
 .edu-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.edu-thumb.logo-fit { background: #fff; }
+.edu-thumb.logo-fit img { object-fit: contain; padding: 22px; }
 .edu-card:hover .edu-thumb img { transform: scale(1.05); }
 .edu-thumb.placeholder::after { content: '🎓'; position: absolute; inset: 0; display: grid; place-items: center; font-size: 3rem; opacity: .5; }
 .edu-badge { position: absolute; top: 12px; left: 12px; padding: 4px 11px; border-radius: 999px; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.9); color: var(--cyan); font-size: .7rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; box-shadow: 0 3px 10px rgba(15,23,42,.08); }

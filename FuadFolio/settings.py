@@ -24,15 +24,23 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7w)r1*d=kqo!*5)eu@=x%21(vr9dw@!ty)h*uy7_194@$cx@x7'
+# In production (Render, Railway, ...) set a real SECRET_KEY env var — this
+# hardcoded value is only a fallback so local/dev runs work out of the box.
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-7w)r1*d=kqo!*5)eu@=x%21(vr9dw@!ty)h*uy7_194@$cx@x7',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Allow all hosts since the Replit preview proxies through different hostnames.
+# Allow all hosts: Replit's preview, Render, and Railway all proxy through
+# rotating/dynamic subdomains, so pin down CSRF (below) instead of this.
 ALLOWED_HOSTS = ['*']
 
-# Trust the Replit preview origin for CSRF-protected POST requests (e.g. contact form).
+# Trust known hosting-platform origins for CSRF-protected POST requests (e.g.
+# the contact form). Add a comma-separated CSRF_EXTRA_ORIGINS env var (e.g.
+# "https://yourdomain.com") for a custom domain on any platform.
 CSRF_TRUSTED_ORIGINS = [
     'https://*.replit.dev',
     'https://*.repl.co',
@@ -45,7 +53,13 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.spock.replit.dev',
     'https://*.sisko.replit.dev',
     'https://*.archer.replit.dev',
+    'https://*.onrender.com',
+    'https://*.up.railway.app',
+    'https://*.railway.app',
 ]
+_extra_origins = os.environ.get('CSRF_EXTRA_ORIGINS', '')
+if _extra_origins:
+    CSRF_TRUSTED_ORIGINS += [o.strip() for o in _extra_origins.split(',') if o.strip()]
 
 
 # Application definition
@@ -109,11 +123,16 @@ WSGI_APPLICATION = 'FuadFolio.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 if os.environ.get('DATABASE_URL'):
+    # Covers Neon (or any managed Postgres) on Replit, Render, or Railway —
+    # all of them hand you a single DATABASE_URL connection string. Neon
+    # requires SSL, so it's forced on in production; Replit's own dev
+    # Postgres doesn't support SSL on its internal network, so DEBUG-mode
+    # runs (like this workspace) leave it off.
     DATABASES = {
         'default': dj_database_url.config(
             default=os.environ['DATABASE_URL'],
             conn_max_age=600,
-            ssl_require=False,
+            ssl_require=not DEBUG,
         )
     }
 else:
@@ -167,6 +186,16 @@ if not DEBUG:
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Render and Railway both terminate SSL at their edge and forward requests to
+# the app over plain HTTP with an X-Forwarded-Proto header — trust that header
+# so Django knows the original request was HTTPS, and harden cookies/redirects
+# once we're actually running in production (DEBUG=False).
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 
 

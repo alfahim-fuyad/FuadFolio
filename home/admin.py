@@ -7,9 +7,16 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'full_name', 'title')
     fieldsets = (
         ('Photo', {'fields': ('photo',)}),
+        ('Identity', {
+            'fields': ('full_name', 'title', 'location', 'phone', 'website'),
+        }),
         ('CV content', {
-            'fields': ('full_name', 'title', 'location', 'summary', 'skills', 'experience', 'certifications'),
+            'fields': (
+                'summary', 'skills', 'core_competencies', 'experience',
+                'certifications', 'achievements', 'languages', 'interests', 'quote',
+            ),
             'description': 'Everything here feeds the auto-generated "Download CV" PDF. '
-                            'GitHub repos and education are pulled in live and need no editing here.',
+                            'GitHub repos and education are pulled in live and need no editing here. '
+                            'Leave any field blank to omit that section from the CV.',
         }),
     )

@@ -29,7 +29,8 @@ def download_cv(request):
     no manual regeneration step.
     """
     profile = Profile.objects.first()
-    buf, filename = build_cv_pdf(profile)
+    cv_url = request.build_absolute_uri()
+    buf, filename = build_cv_pdf(profile, cv_url=cv_url)
     response = HttpResponse(buf.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
     return response
